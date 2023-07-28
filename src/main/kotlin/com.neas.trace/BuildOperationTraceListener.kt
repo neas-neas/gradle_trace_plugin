@@ -14,12 +14,14 @@ import java.nio.charset.StandardCharsets
 import java.util.*
 import kotlin.collections.ArrayList
 
-class BuildOperationTraceListener : BuildOperationNotificationListener {
+class BuildOperationTraceListener(private val rootDir: String) : BuildOperationNotificationListener {
 
-    private val logOutputStream: OutputStream = BufferedOutputStream(FileOutputStream(jsonFile()))
+    private val logOutputStream by lazy {
+        BufferedOutputStream(FileOutputStream(jsonFile()))
+    }
 
     private fun jsonFile(): File {
-        val f = File("build/trace/buildOpTrace.json")
+        val f = File(rootDir, "build/trace/buildOpTrace.json")
         if (!f.exists()) {
             f.parentFile.mkdirs()
             f.createNewFile()

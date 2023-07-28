@@ -1,11 +1,13 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     kotlin("jvm") version "1.8.0"
     `kotlin-dsl`
-    `maven-publish`
+    id("com.vanniktech.maven.publish") version("0.18.0")
 }
 
-group = "com.neas"
-version = "0.0.1"
+group = "io.github.neas-neas"
+version = "0.0.3"
 
 repositories {
     mavenCentral()
@@ -30,5 +32,11 @@ gradlePlugin {
             id = "build.trace"
             implementationClass = "com.neas.trace.BuildTracePlugin"
         }
+    }
+}
+
+pluginManager.withPlugin("com.vanniktech.maven.publish") {
+    mavenPublish {
+        sonatypeHost = SonatypeHost.S01
     }
 }

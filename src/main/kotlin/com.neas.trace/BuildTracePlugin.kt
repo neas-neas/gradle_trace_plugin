@@ -12,9 +12,10 @@ class BuildTracePlugin @Inject constructor(
 ) : Plugin<Settings> {
 
     override fun apply(target: Settings) {
+        val rootDir = target.rootDir.absolutePath
         val manager = (target.gradle as GradleInternal).services.get(GradleEnterprisePluginManager::class.java)
         if (manager.adapter == null) {
-            val adapter = BuildOperationTraceAdapter(registrar)
+            val adapter = BuildOperationTraceAdapter(registrar, rootDir)
             adapter.createService()
             manager.registerAdapter(adapter)
         }
